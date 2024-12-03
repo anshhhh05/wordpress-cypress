@@ -76,8 +76,8 @@ jobs:
       # Run Cypress Tests
       - name: Run Cypress Tests
         run: npx cypress run
-      env:
-        CYPRESS_BASE_URL: http://localhost:8080
+        env:
+          CYPRESS_BASE_URL: http://localhost:8080
 
       # Upload Test Results
       - name: Archive Test Results
