@@ -1,0 +1,87 @@
+name: WordPress and Cypress Workflow
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  setup-wordpress:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the Repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up PHP
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          extensions: mysql
+
+      # Set up MySQL
+      - name: Set up MySQL
+        uses: mirromutth/mysql-action@v1.1.4
+        with:
+          mysql-version: '5.7'
+          root-password: root
+          database: wordpress
+          username: wpuser
+          password: password
+
+      # Download and Configure WordPress
+      - name: Download WordPress
+        run: |
+          curl -O https://wordpress.org/latest.tar.gz
+          tar -xvf latest.tar.gz
+          mv wordpress /var/www/html/
+          sudo chown -R www-data:www-data /var/www/html/wordpress
+          sudo chmod -R 755 /var/www/html/wordpress
+
+      - name: Configure wp-config.php
+        run: |
+          cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
+          sed -i "s/database_name_here/wordpress/" /var/www/html/wordpress/wp-config.php
+          sed -i "s/username_here/wpuser/" /var/www/html/wordpress/wp-config.php
+          sed -i "s/password_here/password/" /var/www/html/wordpress/wp-config.php
+
+      # Start PHP Server
+      - name: Start PHP server
+        run: php -S 0.0.0.0:8080 -t /var/www/html/wordpress &
+      
+      # Verify WordPress Setup
+      - name: Verify WordPress Installation
+        run: curl -I http://localhost:8080/wp-login.php
+
+  run-tests:
+    runs-on: ubuntu-latest
+    needs: setup-wordpress
+    steps:
+      # Checkout Repository
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up Node.js and Install Cypress
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Cypress
+        run: |
+          npm install
+          npx cypress install
+
+      # Run Cypress Tests
+      - name: Run Cypress Tests
+        run: npx cypress run
+      env:
+        CYPRESS_BASE_URL: http://localhost:8080
+
+      # Upload Test Results
+      - name: Archive Test Results
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results
+          path: cypress/reports
