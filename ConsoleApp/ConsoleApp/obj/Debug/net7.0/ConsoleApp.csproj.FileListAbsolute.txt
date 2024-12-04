@@ -1,0 +1,15 @@
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/bin/Debug/net7.0/ConsoleApp
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/bin/Debug/net7.0/ConsoleApp.deps.json
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/bin/Debug/net7.0/ConsoleApp.runtimeconfig.json
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/bin/Debug/net7.0/ConsoleApp.dll
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/bin/Debug/net7.0/ConsoleApp.pdb
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.csproj.AssemblyReference.cache
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.GeneratedMSBuildEditorConfig.editorconfig
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.AssemblyInfoInputs.cache
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.AssemblyInfo.cs
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.csproj.CoreCompileInputs.cache
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.dll
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/refint/ConsoleApp.dll
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.pdb
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ConsoleApp.genruntimeconfig.cache
+/Users/ansh/projects/wordpress-cypress/ConsoleApp/ConsoleApp/obj/Debug/net7.0/ref/ConsoleApp.dll
