@@ -11,25 +11,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Step 1: Checkout the repository
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Step 2: Set up PHP
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
       with:
         php-version: '8.1'
         tools: composer
 
+    # Step 3: Install and configure MySQL
     - name: Install MySQL
       run: |
         sudo apt-get update
         sudo apt-get install -y mysql-server
         sudo systemctl start mysql
-        sudo mysql -e "CREATE DATABASE wordpress;"
-        sudo mysql -e "CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'password';"
-        sudo mysql -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost';"
-        sudo mysql -e "FLUSH PRIVILEGES;"
+        # Set root password and configure MySQL
+        sudo mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED WITH 'mysql_native_password' BY 'root_password';"
+        sudo mysql -uroot -proot_password -e "CREATE DATABASE wordpress;"
+        sudo mysql -uroot -proot_password -e "CREATE USER 'wordpress'@'localhost' IDENTIFIED BY 'password';"
+        sudo mysql -uroot -proot_password -e "GRANT ALL PRIVILEGES ON wordpress.* TO 'wordpress'@'localhost';"
+        sudo mysql -uroot -proot_password -e "FLUSH PRIVILEGES;"
 
+    # Step 4: Install WordPress
     - name: Install WordPress
       run: |
         curl -O https://wordpress.org/latest.tar.gz
@@ -43,25 +49,30 @@ jobs:
         sed -i "s/password_here/password/" /var/www/html/wordpress/wp-config.php
         sudo systemctl restart apache2
 
+    # Step 5: Start Apache on port 8080
     - name: Start Apache on port 8080
       run: |
         sudo sed -i 's/80/8080/' /etc/apache2/ports.conf
         sudo systemctl restart apache2
 
+    # Step 6: Install Node.js for Cypress
     - name: Install Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16'
 
+    # Step 7: Install Cypress
     - name: Install Cypress
       run: npm install cypress --save-dev
 
+    # Step 8: Run Cypress Tests
     - name: Run Cypress Tests
       run: |
         npx cypress run --spec "cypress/integration/login_spec.js"
       env:
         CYPRESS_BASE_URL: "http://localhost:8080/wordpress"
 
+    # Step 9: Upload Cypress Test Results
     - name: Upload Cypress Test Results
       uses: actions/upload-artifact@v3
       with:
